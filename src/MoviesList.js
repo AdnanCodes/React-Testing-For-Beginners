@@ -1,7 +1,7 @@
 /* eslint react/no-did-mount-set-state: 0 */
-import React, { PureComponent } from 'react';
-import styled from 'styled-components';
-import Movie from './Movie';
+import React, { PureComponent } from "react";
+import styled from "styled-components";
+import Movie from "./Movie";
 
 class MoviesList extends PureComponent {
   state = {
@@ -11,12 +11,13 @@ class MoviesList extends PureComponent {
   async componentDidMount() {
     try {
       const res = await fetch(
-        'https://api.themoviedb.org/3/discover/movie?api_key=hi&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1',
+        "https://api.themoviedb.org/3/discover/movie?api_key=hi&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1"
       );
       const movies = await res.json();
-      this.setState({
-        movies: movies.results,
-      });
+      if (movies.success)
+        this.setState({
+          movies: movies.results,
+        });
     } catch (e) {
       console.log(e);
     }
@@ -25,7 +26,9 @@ class MoviesList extends PureComponent {
   render() {
     return (
       <MovieGrid>
-        {this.state.movies.map(movie => <Movie key={movie.id} movie={movie} />)}
+        {this.state.movies.map((movie) => (
+          <Movie key={movie.id} movie={movie} />
+        ))}
       </MovieGrid>
     );
   }
